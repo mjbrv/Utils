@@ -1,0 +1,24 @@
+version: '2.4'
+services:
+  lakehouse_database:
+    container_name: your_local_container_name
+    image: mcr.microsoft.com/mssql/server:2014-last
+    restart: always
+    environment:
+      SA_PASSWORD: ${MSSQL_PASSWORD:-your-local-db-pass}
+      ACCEPT_EULA: 'y'
+      MSSQL_TCP_PORT: 1433
+    ports:
+      - "1433:1433"
+    networks:
+      - your_local_net
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+networks:
+  bplm_net:
+    driver: bridge
+
+volumes:
+  mssql_data:
+    driver: local
